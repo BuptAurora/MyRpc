@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author ziyang
+ * @author lc
  */
 public class HelloServiceImpl implements HelloService {
 
@@ -15,7 +15,7 @@ public class HelloServiceImpl implements HelloService {
     @Override
     public String hello(HelloObject object) {
         logger.info("接收到：{}", object.getMessage());
-        return "这是掉用的返回值，id=" + object.getId();
+        return "这是调用的返回值，id=" + object.getId();
     }
 
 }
