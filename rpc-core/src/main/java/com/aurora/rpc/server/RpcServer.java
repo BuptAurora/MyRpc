@@ -1,4 +1,4 @@
-package com.aurora.rpc.testclient.server;
+package com.aurora.rpc.server;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

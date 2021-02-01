@@ -1,8 +1,8 @@
 package com.aurora.rpc.testclient;
 
-import com.aurora.rpc.testclient.api.HelloObject;
-import com.aurora.rpc.testclient.api.HelloService;
-import com.aurora.rpc.testclient.client.RpcClientProxy;
+import com.aurora.rpc.api.HelloObject;
+import com.aurora.rpc.api.HelloService;
+import com.aurora.rpc.client.RpcClientProxy;
 
 /**
  * 测试用消费者（客户端）

@@ -11,6 +11,8 @@ buildNumber.properties
 
 .idea/
 
+test/
+
 ## File-based project format:
 *.iws
 *.iml

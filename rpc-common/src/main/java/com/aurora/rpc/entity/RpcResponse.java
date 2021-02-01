@@ -1,6 +1,6 @@
-package com.aurora.rpc.testclient.entity;
+package com.aurora.rpc.entity;
 
-import com.aurora.rpc.testclient.enumeration.ResponseCode;
+import com.aurora.rpc.enumeration.ResponseCode;
 import lombok.Data;
 
 import java.io.Serializable;

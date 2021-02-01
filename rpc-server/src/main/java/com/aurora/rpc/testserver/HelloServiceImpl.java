@@ -1,12 +1,12 @@
-package com.aurora.rpc.testclient.testserver;
+package com.aurora.rpc.testserver;
 
-import com.aurora.rpc.testclient.api.HelloObject;
-import com.aurora.rpc.testclient.api.HelloService;
+import com.aurora.rpc.api.HelloObject;
+import com.aurora.rpc.api.HelloService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author lc
+ * @author ziyang
  */
 public class HelloServiceImpl implements HelloService {
 
@@ -19,3 +19,5 @@ public class HelloServiceImpl implements HelloService {
     }
 
 }
+
+

@@ -1,12 +1,11 @@
-package top.guoziyang.rpc.api;
+package com.aurora.rpc.api;
 
 /**
  * 测试用api的接口
  *
- * @author ziyang
+ * @author lc
  */
 public interface HelloService {
-
     String hello(HelloObject object);
 
 }

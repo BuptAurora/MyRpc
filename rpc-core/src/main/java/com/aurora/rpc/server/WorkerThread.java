@@ -1,7 +1,7 @@
-package com.aurora.rpc.testclient.server;
+package com.aurora.rpc.server;
 
-import com.aurora.rpc.testclient.entity.RpcRequest;
-import com.aurora.rpc.testclient.entity.RpcResponse;
+import com.aurora.rpc.entity.RpcRequest;
+import com.aurora.rpc.entity.RpcResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

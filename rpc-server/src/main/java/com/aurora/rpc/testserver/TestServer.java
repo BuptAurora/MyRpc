@@ -1,11 +1,11 @@
-package com.aurora.rpc.testclient.testserver;
+package com.aurora.rpc.testserver;
 
-import com.aurora.rpc.testclient.api.HelloService;
-import com.aurora.rpc.testclient.server.RpcServer;
+import com.aurora.rpc.api.HelloService;
+import com.aurora.rpc.server.RpcServer;
 
 /**
  * 测试用服务提供方（服务端）
- * @author ziyang
+ * @author lc
  */
 public class TestServer {
 

@@ -1,7 +1,7 @@
-package com.aurora.rpc.testclient.client;
+package com.aurora.rpc.client;
 
-import com.aurora.rpc.testclient.entity.RpcRequest;
-import com.aurora.rpc.testclient.entity.RpcResponse;
+import com.aurora.rpc.entity.RpcRequest;
+import com.aurora.rpc.entity.RpcResponse;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

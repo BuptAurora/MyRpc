@@ -1,4 +1,4 @@
-package com.aurora.rpc.testclient.enumeration;
+package com.aurora.rpc.enumeration;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
