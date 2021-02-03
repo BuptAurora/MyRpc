@@ -1,6 +1,9 @@
 package com.aurora.rpc.testserver;
 
+import com.aurora.rpc.api.ByeService;
 import com.aurora.rpc.api.HelloService;
+import com.aurora.rpc.registry.DefaultServiceRegistry;
+import com.aurora.rpc.registry.ServiceRegistry;
 import com.aurora.rpc.server.RpcServer;
 
 /**
@@ -11,8 +14,11 @@ public class TestServer {
 
     public static void main(String[] args) {
         HelloService helloService = new HelloServiceImpl();
-        RpcServer rpcServer = new RpcServer();
-        rpcServer.register(helloService, 9000);
+        ByeService byeService = new ByeServiceImpl();
+        ServiceRegistry serviceRegistry = new DefaultServiceRegistry();
+        serviceRegistry.register(helloService);
+        serviceRegistry.register(byeService);
+        RpcServer rpcServer = new RpcServer(serviceRegistry);
+        rpcServer.start(9000);
     }
-
 }

@@ -1,7 +1,6 @@
 package com.aurora.rpc.client;
 
 import com.aurora.rpc.entity.RpcRequest;
-import com.aurora.rpc.entity.RpcResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

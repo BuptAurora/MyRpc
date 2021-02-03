@@ -3,6 +3,8 @@ package com.aurora.rpc.excepion;
 import com.aurora.rpc.enumeration.RpcError;
 
 /**
+ * Rpc调用异常
+ *
  * @author lc
  */
 public class RpcException extends RuntimeException {
