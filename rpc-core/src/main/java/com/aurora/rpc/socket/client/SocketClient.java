@@ -1,5 +1,6 @@
-package com.aurora.rpc.client;
+package com.aurora.rpc.socket.client;
 
+import com.aurora.rpc.RpcClient;
 import com.aurora.rpc.entity.RpcRequest;
 import com.aurora.rpc.entity.RpcResponse;
 import com.aurora.rpc.enumeration.ResponseCode;
@@ -15,15 +16,24 @@ import java.net.Socket;
 
 
 /**
- * 远程方法调用的消费者（客户端）
+ * Socket方式远程方法调用的消费者（客户端）
  *
  * @author lc
  */
-public class RpcClient {
+public class SocketClient implements RpcClient {
 
-    private static final Logger logger = LoggerFactory.getLogger(RpcClient.class);
+    private static final Logger logger = LoggerFactory.getLogger(SocketClient.class);
 
-    public Object sendRequest(RpcRequest rpcRequest, String host, int port) {
+    private final String host;
+    private final int port;
+
+    public SocketClient(String host, int port) {
+        this.host = host;
+        this.port = port;
+    }
+
+    @Override
+    public Object sendRequest(RpcRequest rpcRequest) {
         try (Socket socket = new Socket(host, port)) {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());

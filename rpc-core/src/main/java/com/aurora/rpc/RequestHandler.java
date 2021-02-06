@@ -1,4 +1,4 @@
-package com.aurora.rpc.server;
+package com.aurora.rpc;
 
 import com.aurora.rpc.entity.RpcRequest;
 import com.aurora.rpc.entity.RpcResponse;

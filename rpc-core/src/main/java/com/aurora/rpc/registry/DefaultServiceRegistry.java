@@ -17,8 +17,12 @@ public class DefaultServiceRegistry implements ServiceRegistry {
 
     private static final Logger logger = LoggerFactory.getLogger(DefaultServiceRegistry.class);
 
-    private final Map<String, Object> serviceMap = new ConcurrentHashMap<>();
-    private final Set<String> registeredService = ConcurrentHashMap.newKeySet();
+//    private final Map<String, Object> serviceMap = new ConcurrentHashMap<>();
+//    //不可重复的set保证不注册重复的服务
+//    private final Set<String> registeredService = ConcurrentHashMap.newKeySet();
+
+    private static final Map<String, Object> serviceMap = new ConcurrentHashMap<>();
+    private static final Set<String> registeredService = ConcurrentHashMap.newKeySet();
 
     @Override
     public synchronized <T> void register(T service) {
