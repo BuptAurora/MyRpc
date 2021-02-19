@@ -1,7 +1,6 @@
 package com.aurora.rpc.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -12,12 +11,13 @@ import java.io.Serializable;
  * @author lc
  */
 @Data
-@Builder
 @AllArgsConstructor
 public class RpcRequest implements Serializable {
 
+    //构造函数
+    public RpcRequest(){
 
-    public RpcRequest() {}
+    }
 
     /**
      * 待调用接口名称
@@ -35,6 +35,7 @@ public class RpcRequest implements Serializable {
      * 调用方法的参数类型
      */
     private Class<?>[] paramTypes;
+
 
 
 }
