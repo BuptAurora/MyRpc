@@ -5,6 +5,7 @@ import com.aurora.rpc.api.ByeService;
 import com.aurora.rpc.api.HelloService;
 import com.aurora.rpc.registry.DefaultServiceRegistry;
 import com.aurora.rpc.registry.ServiceRegistry;
+import com.aurora.rpc.serializer.KryoSerializer;
 import com.aurora.rpc.socket.server.SocketServer;
 
 /**
@@ -20,6 +21,7 @@ public class SocketTestServer {
         serviceRegistry.register(helloService);
         serviceRegistry.register(byeService);
         SocketServer socketServer = new SocketServer(serviceRegistry);
+        socketServer.setSerializer(new KryoSerializer());
         socketServer.start(9000);
     }
 }
