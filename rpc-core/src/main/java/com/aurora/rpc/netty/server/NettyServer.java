@@ -3,6 +3,7 @@ package com.aurora.rpc.netty.server;
 import com.aurora.rpc.RpcServer;
 import com.aurora.rpc.codec.CommonDecoder;
 import com.aurora.rpc.codec.CommonEncoder;
+import com.aurora.rpc.serializer.HessianSerializer;
 import com.aurora.rpc.serializer.JsonSerializer;
 import com.aurora.rpc.serializer.KryoSerializer;
 import io.netty.bootstrap.ServerBootstrap;
@@ -40,7 +41,7 @@ public class NettyServer implements RpcServer {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
                             ChannelPipeline pipeline = ch.pipeline();
-                            pipeline.addLast(new CommonEncoder(new KryoSerializer()));
+                            pipeline.addLast(new CommonEncoder(new HessianSerializer()));
                             pipeline.addLast(new CommonDecoder());
                             pipeline.addLast(new NettyServerHandler());
                         }
