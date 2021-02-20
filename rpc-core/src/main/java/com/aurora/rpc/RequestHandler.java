@@ -17,8 +17,6 @@ public class RequestHandler{
 
     private static final Logger logger = LoggerFactory.getLogger(RequestHandler.class);
 
-
-
     public Object handle(RpcRequest rpcRequest, Object service) {
         Object result = null;
         try {
@@ -36,7 +34,7 @@ public class RequestHandler{
         try {
             method = service.getClass().getMethod(rpcRequest.getMethodName(), rpcRequest.getParamTypes());
         } catch (NoSuchMethodException e) {
-            return RpcResponse.fail(ResponseCode.METHOD_NOT_FOUND);
+            return RpcResponse.fail(ResponseCode.METHOD_NOT_FOUND,rpcRequest.getRequestId());
         }
         return method.invoke(service, rpcRequest.getParameters());
     }
