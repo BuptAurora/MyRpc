@@ -2,6 +2,7 @@ package com.aurora.rpc.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -11,13 +12,10 @@ import java.io.Serializable;
  * @author lc
  */
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class RpcRequest implements Serializable {
 
-    //构造函数
-    public RpcRequest(){
-
-    }
 
     /*
     * 请求号

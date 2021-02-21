@@ -2,6 +2,7 @@ package com.aurora.rpc.entity;
 
 import com.aurora.rpc.enumeration.ResponseCode;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -11,11 +12,8 @@ import java.io.Serializable;
  * @author lc
  */
 @Data
+@NoArgsConstructor
 public class RpcResponse<T> implements Serializable {
-
-    public RpcResponse() {
-
-    }
 
     /*
     * 响应对应的请求号
