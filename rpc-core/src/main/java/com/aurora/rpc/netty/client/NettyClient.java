@@ -1,24 +1,19 @@
 package com.aurora.rpc.netty.client;
 
 import com.aurora.rpc.RpcClient;
-import com.aurora.rpc.codec.CommonDecoder;
-import com.aurora.rpc.codec.CommonEncoder;
 import com.aurora.rpc.entity.RpcRequest;
 import com.aurora.rpc.entity.RpcResponse;
 import com.aurora.rpc.enumeration.RpcError;
 import com.aurora.rpc.excepion.RpcException;
 import com.aurora.rpc.serializer.CommonSerializer;
-import com.aurora.rpc.serializer.JsonSerializer;
-import com.aurora.rpc.serializer.KryoSerializer;
 import com.aurora.rpc.util.RpcMessageChecker;
-import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
-import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.AttributeKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.net.InetSocketAddress;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * NIO方式消费侧客户端类
@@ -30,7 +25,7 @@ public class NettyClient implements RpcClient {
 
     private String host;
     private int port;
-    private static final Bootstrap bootstrap;
+//    private static final Bootstrap bootstrap;
 
     private CommonSerializer serializer;
 
@@ -39,13 +34,13 @@ public class NettyClient implements RpcClient {
         this.port = port;
     }
 
-    static {
-        EventLoopGroup group = new NioEventLoopGroup();
-        bootstrap = new Bootstrap();
-        bootstrap.group(group)
-                .channel(NioSocketChannel.class)
-                .option(ChannelOption.SO_KEEPALIVE,true);
-    }
+//    static {
+//        EventLoopGroup group = new NioEventLoopGroup();
+//        bootstrap = new Bootstrap();
+//        bootstrap.group(group)
+//                .channel(NioSocketChannel.class)
+//                .option(ChannelOption.SO_KEEPALIVE,true);
+//    }
 
     @Override
     public Object sendRequest(RpcRequest rpcRequest) {
@@ -55,21 +50,27 @@ public class NettyClient implements RpcClient {
             throw new RpcException(RpcError.SERIALIZER_NOT_FOUND);
         }
 
-        bootstrap.handler(new ChannelInitializer<SocketChannel>() {
-            @Override
-            protected void initChannel(SocketChannel ch) {
-                ChannelPipeline pipeline = ch.pipeline();
-                pipeline.addLast(new CommonDecoder())
-                        .addLast(new CommonEncoder(serializer))
-                        .addLast(new NettyClientHandler());
-            }
-        });
+//        bootstrap.handler(new ChannelInitializer<SocketChannel>() {
+//            @Override
+//            protected void initChannel(SocketChannel ch) {
+//                ChannelPipeline pipeline = ch.pipeline();
+//                pipeline.addLast(new CommonDecoder())
+//                        .addLast(new CommonEncoder(serializer))
+//                        .addLast(new NettyClientHandler());
+//            }
+//        });
+
+
+        //原子性变量引用，保证result线程安全
+        AtomicReference<Object> result = new AtomicReference<>(null);
 
         try {
-            ChannelFuture future = bootstrap.connect(host, port).sync();
-            logger.info("客户端连接到服务器 {}:{}", host, port);
-            Channel channel = future.channel();
-            if(channel != null) {
+//            ChannelFuture future = bootstrap.connect(host, port).sync();
+//            logger.info("客户端连接到服务器 {}:{}", host, port);
+//            Channel channel = future.channel();
+
+            Channel channel = ChannelProvider.get(new InetSocketAddress(host, port), serializer);
+            if(channel.isActive()) {
                 channel.writeAndFlush(rpcRequest).addListener(future1 -> {
                     if(future1.isSuccess()) {
                         logger.info(String.format("客户端发送消息: %s", rpcRequest.toString()));
@@ -81,13 +82,16 @@ public class NettyClient implements RpcClient {
                 AttributeKey<RpcResponse> key = AttributeKey.valueOf("rpcResponse" + rpcRequest.getRequestId());
                 RpcResponse rpcResponse = channel.attr(key).get();
                 RpcMessageChecker.check(rpcRequest,rpcResponse);
-                return rpcResponse.getData();
+//                return rpcResponse.getData();
+                result.set(rpcResponse.getData());
+            }else{
+                System.exit(0);
             }
 
         } catch (InterruptedException e) {
             logger.error("发送消息时有错误发生: ", e);
         }
-        return null;
+        return result.get();
     }
 
     @Override

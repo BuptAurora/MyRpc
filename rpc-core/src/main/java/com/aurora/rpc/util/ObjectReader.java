@@ -14,7 +14,7 @@ import java.io.InputStream;
 
 /**
  * Socket方式从输入流中读取字节并反序列化
- * @author ziyang
+ * @author lc
  */
 public class ObjectReader {
 
@@ -56,10 +56,15 @@ public class ObjectReader {
 
     public static int bytesToInt(byte[] src) {
         int value;
-        value = (src[0] & 0xFF)
-                | ((src[1] & 0xFF)<<8)
-                | ((src[2] & 0xFF)<<16)
-                | ((src[3] & 0xFF)<<24);
+//        value = (src[0] & 0xFF)
+//                | ((src[1] & 0xFF)<<8)
+//                | ((src[2] & 0xFF)<<16)
+//                | ((src[3] & 0xFF)<<24);
+
+        value = ((src[0] & 0xFF)<<24)
+                |((src[1] & 0xFF)<<16)
+                |((src[2] & 0xFF)<<8)
+                |(src[3] & 0xFF);
         return value;
     }
 

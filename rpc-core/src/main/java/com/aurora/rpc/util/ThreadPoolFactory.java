@@ -4,6 +4,9 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import java.util.concurrent.*;
 
+/*
+* 线程池工厂
+* */
 public class ThreadPoolFactory {
 
     //定义线程池参数
