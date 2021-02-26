@@ -1,5 +1,6 @@
 package com.aurora.rpc.transport.netty.server;
 
+import com.aurora.rpc.hook.ShutdownHook;
 import com.aurora.rpc.provider.ServiceProvider;
 import com.aurora.rpc.registry.NacosServiceRegistry;
 import com.aurora.rpc.provider.ServiceProviderImpl;
@@ -79,6 +80,8 @@ public class NettyServer implements RpcServer {
                         }
                     });
             ChannelFuture future = serverBootstrap.bind(host,port).sync();
+            //钩子
+            ShutdownHook.getShutdownHook().addClearAllHook();
             future.channel().closeFuture().sync();
 
         } catch (InterruptedException e) {

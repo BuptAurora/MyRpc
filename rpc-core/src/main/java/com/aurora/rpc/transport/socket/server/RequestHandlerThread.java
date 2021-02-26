@@ -27,10 +27,9 @@ public class RequestHandlerThread implements Runnable {
     private CommonSerializer serializer;
 
 
-    public RequestHandlerThread(Socket socket, RequestHandler requestHandler, ServiceRegistry serviceRegistry,CommonSerializer serializer) {
+    public RequestHandlerThread(Socket socket, RequestHandler requestHandler,CommonSerializer serializer) {
         this.socket = socket;
         this.requestHandler = requestHandler;
-        this.serviceRegistry = serviceRegistry;
         this.serializer = serializer;
     }
 
@@ -39,9 +38,6 @@ public class RequestHandlerThread implements Runnable {
         try (InputStream inputStream = socket.getInputStream();
              OutputStream outputStream = socket.getOutputStream()) {
             RpcRequest rpcRequest = (RpcRequest) ObjectReader.readObject(inputStream);
-            String interfaceName = rpcRequest.getInterfaceName();
-//            Object service = serviceRegistry.getService(interfaceName);
-//            Object result = requestHandler.handle(rpcRequest, service);
             Object result = requestHandler.handle(rpcRequest);
             RpcResponse<Object> response = RpcResponse.success(result,rpcRequest.getRequestId());
             ObjectWriter.writeObject(outputStream, response, serializer);

@@ -103,6 +103,7 @@ public class NettyClient implements RpcClient {
             }
         } catch (InterruptedException e) {
             logger.error("发送消息时有错误发生: ", e);
+            Thread.currentThread().interrupt();
         }
         return result.get();
     }

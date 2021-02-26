@@ -13,6 +13,10 @@ import org.slf4j.LoggerFactory;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
+/**
+ * 使用Kryo的序列化器
+ * @author lc
+ */
 public class KryoSerializer implements CommonSerializer{
 
     private static final Logger logger = LoggerFactory.getLogger(KryoSerializer.class);

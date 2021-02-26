@@ -1,9 +1,10 @@
 package com.aurora.rpc.transport.netty.server;
 
+import com.aurora.rpc.factory.SingletonFactory;
 import com.aurora.rpc.handler.RequestHandler;
 import com.aurora.rpc.entity.RpcRequest;
 import com.aurora.rpc.entity.RpcResponse;
-import com.aurora.rpc.transport.util.ThreadPoolFactory;
+import com.aurora.rpc.factory.ThreadPoolFactory;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
@@ -21,30 +22,18 @@ import java.util.concurrent.ExecutorService;
 public class NettyServerHandler extends SimpleChannelInboundHandler<RpcRequest> {
 
     private static final Logger logger = LoggerFactory.getLogger(NettyServerHandler.class);
-    private static RequestHandler requestHandler;
-//    private static ServiceRegistry serviceRegistry;
     private static final String THREAD_NAME_PREFIX = "netty-server-handler";
-    private static final ExecutorService threadPool;
 
-    static {
-        requestHandler = new RequestHandler();
-//        serviceRegistry = new ServiceProviderImpl();
-        threadPool = ThreadPoolFactory.createDefaultThreadPool(THREAD_NAME_PREFIX);
+    private final RequestHandler requestHandler;
+    private final ExecutorService threadPool;
+
+    public NettyServerHandler(){
+        this.requestHandler = SingletonFactory.getInstance(RequestHandler.class);
+        this.threadPool = ThreadPoolFactory.createDefaultThreadPool(THREAD_NAME_PREFIX);
     }
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, RpcRequest msg) throws Exception {
-//        try {
-//            logger.info("服务器接收到请求: {}", msg);
-//            String interfaceName = msg.getInterfaceName();
-//            Object service = serviceRegistry.getService(interfaceName);
-//            Object result = requestHandler.handle(msg, service);
-//            ChannelFuture future = ctx.writeAndFlush(RpcResponse.success(result,msg.getRequestId()));
-//            future.addListener(ChannelFutureListener.CLOSE);
-//        } finally {
-//            ReferenceCountUtil.release(msg);
-//        }
-
         threadPool.execute(() -> {
             try {
                 logger.info("服务器接收到请求: {}", msg);

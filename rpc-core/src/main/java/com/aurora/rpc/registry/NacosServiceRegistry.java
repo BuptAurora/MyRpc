@@ -21,19 +21,11 @@ public class NacosServiceRegistry implements ServiceRegistry{
 
     private static final Logger logger = LoggerFactory.getLogger(NacosServiceRegistry.class);
 
-//    private static final String SERVER_ADDR = "127.0.0.1:8848";
-
-    private final NamingService namingService;
-
-    public NacosServiceRegistry(){
-        this.namingService = NacosUtil.getNacosNamingService();
-    }
-
     //向nacos注册中心 注册服务
     @Override
     public void register(String serviceName, InetSocketAddress inetSocketAddress) {
         try {
-            NacosUtil.registerService(namingService,serviceName,inetSocketAddress);
+            NacosUtil.registerService(serviceName,inetSocketAddress);
         } catch (NacosException e) {
             logger.error("注册服务时有错误发生:", e);
             throw new RpcException(RpcError.REGISTER_SERVICE_FAILED);
