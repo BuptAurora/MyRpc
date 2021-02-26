@@ -1,6 +1,8 @@
 package com.aurora.rpc.transport.netty.client;
 
+import com.aurora.rpc.registry.NacosServiceDiscovery;
 import com.aurora.rpc.registry.NacosServiceRegistry;
+import com.aurora.rpc.registry.ServiceDiscovery;
 import com.aurora.rpc.registry.ServiceRegistry;
 import com.aurora.rpc.transport.RpcClient;
 import com.aurora.rpc.entity.RpcRequest;
@@ -28,13 +30,13 @@ public class NettyClient implements RpcClient {
 //    private String host;
 //    private int port;
 //    private static final Bootstrap bootstrap;
-    private final ServiceRegistry serviceRegistry;
+    private final ServiceDiscovery serviceDiscovery;
 
 
     private CommonSerializer serializer;
 
     public NettyClient(){
-        this.serviceRegistry = new NacosServiceRegistry();
+        this.serviceDiscovery = new NacosServiceDiscovery();
     }
 
 //    public NettyClient(String host, int port) {
@@ -79,7 +81,7 @@ public class NettyClient implements RpcClient {
 
 //            Channel channel = ChannelProvider.get(new InetSocketAddress(host, port), serializer);
 
-            InetSocketAddress inetSocketAddress = serviceRegistry.lookupService(rpcRequest.getInterfaceName());
+            InetSocketAddress inetSocketAddress = serviceDiscovery.lookupService(rpcRequest.getInterfaceName());
             Channel channel = ChannelProvider.get(inetSocketAddress, serializer);
 
             if(channel.isActive()) {
@@ -94,12 +96,11 @@ public class NettyClient implements RpcClient {
                 AttributeKey<RpcResponse> key = AttributeKey.valueOf("rpcResponse" + rpcRequest.getRequestId());
                 RpcResponse rpcResponse = channel.attr(key).get();
                 RpcMessageChecker.check(rpcRequest,rpcResponse);
-//                return rpcResponse.getData();
                 result.set(rpcResponse.getData());
             }else{
+                channel.close();
                 System.exit(0);
             }
-
         } catch (InterruptedException e) {
             logger.error("发送消息时有错误发生: ", e);
         }

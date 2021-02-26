@@ -1,6 +1,8 @@
 package com.aurora.rpc.transport.socket.client;
 
+import com.aurora.rpc.registry.NacosServiceDiscovery;
 import com.aurora.rpc.registry.NacosServiceRegistry;
+import com.aurora.rpc.registry.ServiceDiscovery;
 import com.aurora.rpc.registry.ServiceRegistry;
 import com.aurora.rpc.transport.RpcClient;
 import com.aurora.rpc.entity.RpcRequest;
@@ -32,7 +34,7 @@ public class SocketClient implements RpcClient {
 //    private final String host;
 //    private final int port;
 
-    private final ServiceRegistry serviceRegistry;
+    private final ServiceDiscovery serviceDiscovery;
 
 
     private CommonSerializer serializer;
@@ -44,7 +46,7 @@ public class SocketClient implements RpcClient {
 //    }
 
     public SocketClient(){
-        this.serviceRegistry = new NacosServiceRegistry();
+        this.serviceDiscovery = new NacosServiceDiscovery();
     }
 
     @Override
@@ -53,8 +55,8 @@ public class SocketClient implements RpcClient {
             logger.error("未设置序列化器");
             throw new RpcException(RpcError.SERIALIZER_NOT_FOUND);
         }
-//        try (Socket socket = new Socket(host, port)) {
-        InetSocketAddress inetSocketAddress = serviceRegistry.lookupService(rpcRequest.getInterfaceName());
+
+        InetSocketAddress inetSocketAddress = serviceDiscovery.lookupService(rpcRequest.getInterfaceName());
         try (Socket socket = new Socket()) {
             socket.connect(inetSocketAddress);
             OutputStream outputStream = socket.getOutputStream();

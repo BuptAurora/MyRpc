@@ -13,10 +13,7 @@ import com.aurora.rpc.transport.socket.server.SocketServer;
 
 public class SocketTestServer {
     public static void main(String[] args) {
-        HelloService helloService = new HelloServiceImpl();
-//        ServiceRegistry serviceRegistry = new ServiceProviderImpl();
-//        serviceRegistry.register(helloService);
-//        SocketServer socketServer = new SocketServer(serviceRegistry);
+        HelloService helloService = new HelloServiceImpl2();
         SocketServer socketServer = new SocketServer("127.0.0.1",9998);
         socketServer.setSerializer(new KryoSerializer());
         socketServer.publishService(helloService,HelloService.class);

@@ -15,6 +15,6 @@ public interface RpcServer {
     void setSerializer(CommonSerializer serializer);
 
     //向Nacos注册服务
-    <T> void publishService(Object service,Class<T> serviceClass);
+    <T> void publishService(T service,Class<T> serviceClass);
 
 }
