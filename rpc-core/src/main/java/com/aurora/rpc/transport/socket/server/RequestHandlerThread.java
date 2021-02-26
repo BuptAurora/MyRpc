@@ -1,12 +1,12 @@
-package com.aurora.rpc.socket.server;
+package com.aurora.rpc.transport.socket.server;
 
-import com.aurora.rpc.RequestHandler;
+import com.aurora.rpc.handler.RequestHandler;
 import com.aurora.rpc.entity.RpcRequest;
 import com.aurora.rpc.entity.RpcResponse;
 import com.aurora.rpc.registry.ServiceRegistry;
 import com.aurora.rpc.serializer.CommonSerializer;
-import com.aurora.rpc.util.ObjectReader;
-import com.aurora.rpc.util.ObjectWriter;
+import com.aurora.rpc.transport.util.ObjectReader;
+import com.aurora.rpc.transport.util.ObjectWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,8 +40,9 @@ public class RequestHandlerThread implements Runnable {
              OutputStream outputStream = socket.getOutputStream()) {
             RpcRequest rpcRequest = (RpcRequest) ObjectReader.readObject(inputStream);
             String interfaceName = rpcRequest.getInterfaceName();
-            Object service = serviceRegistry.getService(interfaceName);
-            Object result = requestHandler.handle(rpcRequest, service);
+//            Object service = serviceRegistry.getService(interfaceName);
+//            Object result = requestHandler.handle(rpcRequest, service);
+            Object result = requestHandler.handle(rpcRequest);
             RpcResponse<Object> response = RpcResponse.success(result,rpcRequest.getRequestId());
             ObjectWriter.writeObject(outputStream, response, serializer);
         } catch (IOException e) {

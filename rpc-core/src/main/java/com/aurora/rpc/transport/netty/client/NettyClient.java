@@ -1,12 +1,14 @@
-package com.aurora.rpc.netty.client;
+package com.aurora.rpc.transport.netty.client;
 
-import com.aurora.rpc.RpcClient;
+import com.aurora.rpc.registry.NacosServiceRegistry;
+import com.aurora.rpc.registry.ServiceRegistry;
+import com.aurora.rpc.transport.RpcClient;
 import com.aurora.rpc.entity.RpcRequest;
 import com.aurora.rpc.entity.RpcResponse;
 import com.aurora.rpc.enumeration.RpcError;
 import com.aurora.rpc.excepion.RpcException;
 import com.aurora.rpc.serializer.CommonSerializer;
-import com.aurora.rpc.util.RpcMessageChecker;
+import com.aurora.rpc.transport.util.RpcMessageChecker;
 import io.netty.channel.*;
 import io.netty.util.AttributeKey;
 import org.slf4j.Logger;
@@ -23,16 +25,22 @@ public class NettyClient implements RpcClient {
 
     private static final Logger logger = LoggerFactory.getLogger(NettyClient.class);
 
-    private String host;
-    private int port;
+//    private String host;
+//    private int port;
 //    private static final Bootstrap bootstrap;
+    private final ServiceRegistry serviceRegistry;
+
 
     private CommonSerializer serializer;
 
-    public NettyClient(String host, int port) {
-        this.host = host;
-        this.port = port;
+    public NettyClient(){
+        this.serviceRegistry = new NacosServiceRegistry();
     }
+
+//    public NettyClient(String host, int port) {
+//        this.host = host;
+//        this.port = port;
+//    }
 
 //    static {
 //        EventLoopGroup group = new NioEventLoopGroup();
@@ -69,7 +77,11 @@ public class NettyClient implements RpcClient {
 //            logger.info("客户端连接到服务器 {}:{}", host, port);
 //            Channel channel = future.channel();
 
-            Channel channel = ChannelProvider.get(new InetSocketAddress(host, port), serializer);
+//            Channel channel = ChannelProvider.get(new InetSocketAddress(host, port), serializer);
+
+            InetSocketAddress inetSocketAddress = serviceRegistry.lookupService(rpcRequest.getInterfaceName());
+            Channel channel = ChannelProvider.get(inetSocketAddress, serializer);
+
             if(channel.isActive()) {
                 channel.writeAndFlush(rpcRequest).addListener(future1 -> {
                     if(future1.isSuccess()) {

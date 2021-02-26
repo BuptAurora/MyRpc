@@ -1,19 +1,22 @@
-package com.aurora.rpc.socket.client;
+package com.aurora.rpc.transport.socket.client;
 
-import com.aurora.rpc.RpcClient;
+import com.aurora.rpc.registry.NacosServiceRegistry;
+import com.aurora.rpc.registry.ServiceRegistry;
+import com.aurora.rpc.transport.RpcClient;
 import com.aurora.rpc.entity.RpcRequest;
 import com.aurora.rpc.entity.RpcResponse;
 import com.aurora.rpc.enumeration.ResponseCode;
 import com.aurora.rpc.enumeration.RpcError;
 import com.aurora.rpc.excepion.RpcException;
 import com.aurora.rpc.serializer.CommonSerializer;
-import com.aurora.rpc.util.ObjectReader;
-import com.aurora.rpc.util.ObjectWriter;
-import com.aurora.rpc.util.RpcMessageChecker;
+import com.aurora.rpc.transport.util.ObjectReader;
+import com.aurora.rpc.transport.util.ObjectWriter;
+import com.aurora.rpc.transport.util.RpcMessageChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 
 
@@ -26,15 +29,22 @@ public class SocketClient implements RpcClient {
 
     private static final Logger logger = LoggerFactory.getLogger(SocketClient.class);
 
-    private final String host;
-    private final int port;
+//    private final String host;
+//    private final int port;
+
+    private final ServiceRegistry serviceRegistry;
+
 
     private CommonSerializer serializer;
 
 
-    public SocketClient(String host, int port) {
-        this.host = host;
-        this.port = port;
+//    public SocketClient(String host, int port) {
+//        this.host = host;
+//        this.port = port;
+//    }
+
+    public SocketClient(){
+        this.serviceRegistry = new NacosServiceRegistry();
     }
 
     @Override
@@ -43,7 +53,10 @@ public class SocketClient implements RpcClient {
             logger.error("未设置序列化器");
             throw new RpcException(RpcError.SERIALIZER_NOT_FOUND);
         }
-        try (Socket socket = new Socket(host, port)) {
+//        try (Socket socket = new Socket(host, port)) {
+        InetSocketAddress inetSocketAddress = serviceRegistry.lookupService(rpcRequest.getInterfaceName());
+        try (Socket socket = new Socket()) {
+            socket.connect(inetSocketAddress);
             OutputStream outputStream = socket.getOutputStream();
             InputStream inputStream = socket.getInputStream();
             ObjectWriter.writeObject(outputStream,rpcRequest,serializer);

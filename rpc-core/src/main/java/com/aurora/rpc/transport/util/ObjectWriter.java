@@ -1,4 +1,4 @@
-package com.aurora.rpc.util;
+package com.aurora.rpc.transport.util;
 
 import com.aurora.rpc.entity.RpcRequest;
 import com.aurora.rpc.enumeration.PackageType;

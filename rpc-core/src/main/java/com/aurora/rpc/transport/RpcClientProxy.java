@@ -1,6 +1,5 @@
-package com.aurora.rpc;
+package com.aurora.rpc.transport;
 
-import com.aurora.rpc.socket.client.SocketClient;
 import com.aurora.rpc.entity.RpcRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

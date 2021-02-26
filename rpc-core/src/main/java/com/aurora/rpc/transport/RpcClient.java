@@ -1,4 +1,4 @@
-package com.aurora.rpc;
+package com.aurora.rpc.transport;
 
 import com.aurora.rpc.entity.RpcRequest;
 import com.aurora.rpc.serializer.CommonSerializer;

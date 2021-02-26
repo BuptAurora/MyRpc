@@ -1,10 +1,10 @@
 package com.aurora.rpc.testclient;
 
-import com.aurora.rpc.RpcClient;
-import com.aurora.rpc.RpcClientProxy;
+import com.aurora.rpc.transport.RpcClient;
+import com.aurora.rpc.transport.RpcClientProxy;
 import com.aurora.rpc.api.HelloObject;
 import com.aurora.rpc.api.HelloService;
-import com.aurora.rpc.netty.client.NettyClient;
+import com.aurora.rpc.transport.netty.client.NettyClient;
 import com.aurora.rpc.serializer.ProtobufSerializer;
 
 /**
@@ -14,7 +14,7 @@ import com.aurora.rpc.serializer.ProtobufSerializer;
 public class NettyTestClient {
 
     public static void main(String[] args) {
-        RpcClient client = new NettyClient("127.0.0.1", 8888);
+        RpcClient client = new NettyClient();
         client.setSerializer(new ProtobufSerializer());
         RpcClientProxy rpcClientProxy = new RpcClientProxy(client);
         HelloService helloService = rpcClientProxy.getProxy(HelloService.class);
@@ -23,5 +23,4 @@ public class NettyTestClient {
         System.out.println(res);
 
     }
-
 }

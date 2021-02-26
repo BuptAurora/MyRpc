@@ -5,7 +5,7 @@
     <parent>
         <artifactId>MyRpc</artifactId>
         <groupId>com.aurora.rpc</groupId>
-        <version>2.0-SNAPSHOT</version>
+        <version>3.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -14,7 +14,7 @@
         <dependency>
             <groupId>com.aurora.rpc</groupId>
             <artifactId>rpc-common</artifactId>
-            <version>2.0-SNAPSHOT</version>
+            <version>3.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
 
@@ -61,6 +61,13 @@
             <groupId>io.protostuff</groupId>
             <artifactId>protostuff-runtime</artifactId>
             <version>1.7.2</version>
+        </dependency>
+
+<!--        阿里注册中心nacos-->
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-client</artifactId>
+            <version>1.4.0</version>
         </dependency>
     </dependencies>
 

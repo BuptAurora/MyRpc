@@ -1,17 +1,15 @@
 package com.aurora.rpc.testclient;
 
-import com.aurora.rpc.RpcClientProxy;
-import com.aurora.rpc.api.ByeObject;
-import com.aurora.rpc.api.ByeService;
+import com.aurora.rpc.transport.RpcClientProxy;
 import com.aurora.rpc.api.HelloObject;
 import com.aurora.rpc.api.HelloService;
 import com.aurora.rpc.serializer.HessianSerializer;
-import com.aurora.rpc.socket.client.SocketClient;
+import com.aurora.rpc.transport.socket.client.SocketClient;
 
 public class SocketTestClient {
 
     public static void main(String[] args) {
-        SocketClient client = new SocketClient("127.0.0.1", 9000);
+        SocketClient client = new SocketClient();
         client.setSerializer(new HessianSerializer());
         RpcClientProxy proxy = new RpcClientProxy(client);
 

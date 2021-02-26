@@ -1,4 +1,4 @@
-package com.aurora.rpc.netty.client;
+package com.aurora.rpc.transport.netty.client;
 
 import com.aurora.rpc.entity.RpcResponse;
 import io.netty.channel.ChannelHandlerContext;
